@@ -67,16 +67,11 @@ void loop() {
   // (i.e. the input went from LOW to HIGH), and you've waited long enough
   // since the last press to ignore any noise:
 
-  // If the switch changed, due to noise or pressing:
-  if (reading != lastButtonState) {
-    // reset the debouncing timer
-    lastDebounceTime = millis();
-  }
-
   if ((millis() - lastDebounceTime) > debounceDelay) {
     // whatever the reading is at, it's been there for longer than the debounce º
     // delay, so take it as the actual current state:
-
+    lastDebounceTime = millis();
+    
     // if the button state has changed:
     if (reading != buttonState) {
       buttonState = reading;
@@ -95,48 +90,24 @@ void loop() {
   // save the reading. Next time through the loop, it'll be the lastButtonState:
   //  lastButtonState = reading;
 
-
-
-  while (derecha < 10) {
-
-    timer2 = (millis() / 2000);
-    if ( timer1 != timer2 ) {
-      timer1 = timer2;
-      for (int i = 0; i < 43; i++) {
-        pixels.setPixelColor(i, apagado); // Brillo moderado en verde
-        pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
+  if ( millis() - timer1 > 2000) {
+    timer1 = millis();
+    
+    for (int i = 0; i < 43; i++) {
+        pixels.setPixelColor(i, apagado);
+        pixels.show();
       }
-
-      numd(derecha);
-
-      numi(izquierda);
-
-      derecha++;    // unidades de segundo se incrementa cada segundo
-
-    }
-
-  }
-  derecha = 0;
-
-  izquierda++;
-  for (int i = 0; i < 21; i++) {
-    pixels.setPixelColor(i, apagado); // Brillo moderado en verde
-    pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  }
-  numi(izquierda - 1);
-
-
-  /* for (izquierda = 0; izquierda < 10; izquierda++) {
-     for (derecha = 0; derecha < 10; derecha++) {
-       for (int i = 0; i < 50; i++) {
-         pixels.setPixelColor(i, apagado); // Brillo moderado en verde
-         pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-       }
-       numd(derecha);
-       numi(izquierda);
-       delay(500);
+    
+     derecha++;
+     if (derecha > 10)
+     {
+        izquierda++;
+        derecha=0;
      }
-    }*/
+    
+      numd(derecha);
+      numi(izquierda);
+  }
 }
 
 void tira_uno(char color) {
