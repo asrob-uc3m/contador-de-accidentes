@@ -71,7 +71,7 @@ void loop() {
     // whatever the reading is at, it's been there for longer than the debounce º
     // delay, so take it as the actual current state:
     lastDebounceTime = millis();
-    
+
     // if the button state has changed:
     if (reading != buttonState) {
       buttonState = reading;
@@ -79,34 +79,32 @@ void loop() {
       // only toggle the LED if the new button state is HIGH
       if (buttonState == HIGH) {
 
-         derecha = 0;
-         izquierda = 0;
-
+        derecha = 0;
+        izquierda = 0;
 
       }
     }
   }
 
   // save the reading. Next time through the loop, it'll be the lastButtonState:
-  //  lastButtonState = reading;
 
   if ( millis() - timer1 > 2000) {
     timer1 = millis();
-    
+
     for (int i = 0; i < 43; i++) {
-        pixels.setPixelColor(i, apagado);
-        pixels.show();
-      }
-    
-     derecha++;
-     if (derecha >= 10)
-     {
-        izquierda++;
-        derecha=0;
-     }
-    
-      numd(derecha);
-      numi(izquierda);
+      pixels.setPixelColor(i, apagado);
+      pixels.show();
+    }
+
+    derecha++;
+    if (derecha >= 10)
+    {
+      izquierda++;
+      derecha = 0;
+    }
+
+    numd(derecha);
+    numi(izquierda);
   }
 }
 
