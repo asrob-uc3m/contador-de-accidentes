@@ -99,7 +99,7 @@ void loop() {
       }
     
      derecha++;
-     if (derecha > 10)
+     if (derecha >= 10)
      {
         izquierda++;
         derecha=0;
