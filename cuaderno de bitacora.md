@@ -9,6 +9,7 @@
 
 ## 13 de Junio de 2018
 * Wen soldó la alimentación a la placa.
+* Wen cubrió los números con una hoja de papel.
 
 ### Cosas a hacer
   - Hacer que el color de los números sea gradual respecto al número de días
