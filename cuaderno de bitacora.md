@@ -14,4 +14,4 @@
 ### Cosas a hacer
   - Hacer que el color de los números sea gradual respecto al número de días
   - Cambiar los millis para que sean días
-  
+  - Anotar las medidas
