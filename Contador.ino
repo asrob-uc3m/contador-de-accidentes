@@ -1,18 +1,20 @@
+#include <Adafruit_NeoPixel.h>
+#include <Time.h>
+
+
 const int buttonPin = 2;    // the number of the pushbutton pin
 const int ledPin = 13;      // the number of the LED pin
-#include <Adafruit_NeoPixel.h>
 boolean flag = false;
 
 //Designamos nuestro pin de datos
-#define PIN 6
+#define PIN A1
 //Designamos cuantos pixeles tenemos en nuestra cinta led RGB
 #define NUMPIXELS 42
 #define delayval 50
 #define rojo  pixels.Color(150, 0, 0)
 #define  verde  pixels.Color(0, 150, 0)
 #define  azul  pixels.Color(0, 0, 20)
-unsigned long timer1 = 0;
-unsigned long timer2 = 0;
+int timer1 = day();
 int derecha = 0;
 int izquierda = 0;
 
@@ -29,9 +31,9 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ80
 // Evite realizar conexiones en el circuito vivo si lo va a hacer, conecte GND primero.
 
 // Variables will change:
-int ledState = HIGH;         // the current state of the output pin
+int ledState = LOW;         // the current state of the output pin
 int buttonState;             // the current reading from the input pin
-int lastButtonState = HIGH;   // the previous reading from the input pin
+int lastButtonState = LOW;   // the previous reading from the input pin
 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
@@ -41,11 +43,13 @@ unsigned long debounceDelay = 50;    // the debounce time; increase if the outpu
 void setup() {
   Serial.begin(9600);
   pixels.begin();
-  pinMode(buttonPin, INPUT);
+  pinMode(buttonPin, INPUT_PULLUP);
   pinMode(ledPin, OUTPUT);
   //Definimos nuestras variables de tipo uint32 para cada color que utilizaremos
   // pixels.Color toma valores en RGB, desde 0,0,0 hasta 255,255,255
 
+    numd(derecha);
+    numi(izquierda);
 
   // set initial LED state
   digitalWrite(ledPin, ledState);
@@ -69,36 +73,47 @@ void loop() {
     // whatever the reading is at, it's been there for longer than the debounce º
     // delay, so take it as the actual current state:
     lastDebounceTime = millis();
+    
 
     // if the button state has changed:
     if (buttonState != lastButtonState) {
       lastButtonState = buttonState;
 
+
       // only toggle the LED if the new button state is HIGH
-      if (buttonState == LOW) {
+      if (buttonState == HIGH) {
 
         derecha = 0;
         izquierda = 0;
 
+        for (int i = 0; i < 43; i++) {
+          pixels.setPixelColor(i, apagado);
+          pixels.show();
+        }
+        numd(derecha);
+        numi(izquierda);
       }
     }
   }
 
   // save the reading. Next time through the loop, it'll be the lastButtonState:
-
-  if ( millis() - timer1 > 2000) {
-    timer1 = millis();
-
-    for (int i = 0; i < 43; i++) {
-      pixels.setPixelColor(i, apagado);
-      pixels.show();
-    }
+  if ( day() != timer1) {
+    timer1 = day();
 
     derecha++;
     if (derecha >= 10)
     {
       izquierda++;
+      if (izquierda>=10)
+      { 
+        izquierda=0;
+      }
       derecha = 0;
+    }
+
+    for (int i = 0; i < 43; i++) {
+      pixels.setPixelColor(i, apagado);
+      pixels.show();
     }
 
     numd(derecha);
