@@ -1,8 +1,6 @@
-
 const int buttonPin = 2;    // the number of the pushbutton pin
 const int ledPin = 13;      // the number of the LED pin
 #include <Adafruit_NeoPixel.h>
-#include <avr/power.h>
 boolean flag = false;
 
 //Designamos nuestro pin de datos
@@ -33,7 +31,7 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ80
 // Variables will change:
 int ledState = HIGH;         // the current state of the output pin
 int buttonState;             // the current reading from the input pin
-int lastButtonState = LOW;   // the previous reading from the input pin
+int lastButtonState = HIGH;   // the previous reading from the input pin
 
 // the following variables are unsigned longs because the time, measured in
 // milliseconds, will quickly become a bigger number than can be stored in an int.
@@ -61,7 +59,7 @@ void loop() {
 
 
 
-  int reading = digitalRead(buttonPin);
+  buttonState = digitalRead(buttonPin);
 
   // check to see if you just pressed the button
   // (i.e. the input went from LOW to HIGH), and you've waited long enough
@@ -73,11 +71,11 @@ void loop() {
     lastDebounceTime = millis();
 
     // if the button state has changed:
-    if (reading != buttonState) {
-      buttonState = reading;
+    if (buttonState != lastButtonState) {
+      lastButtonState = buttonState;
 
       // only toggle the LED if the new button state is HIGH
-      if (buttonState == HIGH) {
+      if (buttonState == LOW) {
 
         derecha = 0;
         izquierda = 0;
@@ -430,5 +428,4 @@ void numi(int t) {
       tira_tres(azul);
       tira_siete(azul);
       break;
-  }
-}
+  }}
