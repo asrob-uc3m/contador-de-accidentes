@@ -1,6 +1,10 @@
 # Cuaderno de bitácora
 
-
+## 12 de Septiembre de 2018
+ 
+ * :bug: Cuando se inicia sigue sumando uno a los días independientemente de qué día lo inicialices. 
+ * :sparkles: [Cecilia](https://github.com/CeciliaVa) ha soldado de nuevo los cables que se habían soltado en el accidente y asegurado con termofusible por orden del Gran [David](https://github.com/David-Estevez).
+ * :construction: [Diego](https://github.com/Diegodevigo) está realizando mejoras del código. 
 ## 18 de Junio de 2018
 
 Mejoras by [David](https://github.com/David-Estevez) y [Cecilia](https://github.com/CeciliaVa):
