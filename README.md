@@ -7,6 +7,6 @@ Contador de días sin accidente
 	Adafruit Neopixel: https://github.com/adafruit/Adafruit_NeoPixel.git
 	
 #Fuente de alimentacion de 5v!:
-	NO tiente REGULADOR
+	NO tiente REGULADOR el arduino
 
 
