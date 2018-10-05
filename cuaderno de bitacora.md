@@ -1,5 +1,10 @@
 # Cuaderno de bitácora
 
+## 5 de Octubre de 2018
+- Se ha hecho el panel de madera donde iran pegados los segmentos led. Falta lijarlo y barnizarlo.
+- Los difusores de los de los segmento se han pegado.
+- Se han soldado parte de los segmentos led
+
 ## 12 de Septiembre de 2018
  
  * :bug: Cuando se inicia sigue sumando uno a los días independientemente de qué día lo inicialices. 
