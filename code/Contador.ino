@@ -1,20 +1,18 @@
 #include <Adafruit_NeoPixel.h>
-#include <Time.h>
 
 
 const int buttonPin = 2;    // the number of the pushbutton pin
-const int ledPin = 13;      // the number of the LED pin
 boolean flag = false;
 
 //Designamos nuestro pin de datos
-#define PIN A1
+#define PIN 1
 //Designamos cuantos pixeles tenemos en nuestra cinta led RGB
-#define NUMPIXELS 42
+#define NUMPIXELS 63
 #define delayval 50
 #define rojo  pixels.Color(150, 0, 0)
 #define  verde  pixels.Color(0, 150, 0)
 #define  azul  pixels.Color(0, 0, 20)
-int timer1 = day();
+unsigned long timer1 = millis();
 int derecha = 0;
 int izquierda = 0;
 
@@ -40,19 +38,21 @@ int lastButtonState = LOW;   // the previous reading from the input pin
 unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
 unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
 
-void setup() {
-  Serial.begin(9600);
+
+void pintar (int led);
+void borrar(int);
+int show(int, int, int);
+
+void setup() 
+{
   pixels.begin();
   pinMode(buttonPin, INPUT_PULLUP);
-  pinMode(ledPin, OUTPUT);
   //Definimos nuestras variables de tipo uint32 para cada color que utilizaremos
   // pixels.Color toma valores en RGB, desde 0,0,0 hasta 255,255,255
 
-    numd(derecha);
-    numi(izquierda);
+    show(0, 0, 0);
 
   // set initial LED state
-  digitalWrite(ledPin, ledState);
 }
 
 void loop() {
@@ -86,361 +86,257 @@ void loop() {
         derecha = 0;
         izquierda = 0;
 
-        for (int i = 0; i < 43; i++) {
+        for (int i = 0; i < NUMPIXELS; i++) {
           pixels.setPixelColor(i, apagado);
           pixels.show();
         }
-        numd(derecha);
-        numi(izquierda);
+      show(derecha/100, (derecha/10)%10, derecha%10);
+
       }
     }
   }
 
   // save the reading. Next time through the loop, it'll be the lastButtonState:
-  if ( day() != timer1) {
-    timer1 = day();
+  if ( millis() - timer1 >= 1000) {
+    timer1 = millis();
 
     derecha++;
-    if (derecha >= 10)
+    if (derecha >= 1000)
     {
-      izquierda++;
-      if (izquierda>=10)
-      { 
-        izquierda=0;
-      }
       derecha = 0;
     }
 
-    for (int i = 0; i < 43; i++) {
+    for (int i = 0; i < NUMPIXELS; i++) {
       pixels.setPixelColor(i, apagado);
       pixels.show();
     }
 
-    numd(derecha);
-    numi(izquierda);
+      show(derecha/100, (derecha/10)%10, derecha%10);
   }
 }
 
-void tira_uno(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(0, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+int show(int centenas, int decenas, int unidades)
+{
+ switch (centenas)                                                  //Aquí la programación de cuáles ledes tienen que encenderse y cuáles apagarse, para las centenas.
+      {
+        case 0:
+            for(int i=0;i<21;i++){
+              if (i<9 || 11<i){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
 
-  pixels.setPixelColor(1, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 1:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<9) || (16<i)){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
 
-  pixels.setPixelColor(2, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_dos(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(3, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 2:
+            for(int i=0;i<21;i++){
+              if (i<6 || (8<i && i<12) || 14<i){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
 
-  pixels.setPixelColor(4, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 3:
+            for(int i=0;i<21;i++){
+              if ((2<i && i<12) ||  14<i){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
 
-  pixels.setPixelColor(5, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_tres(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(6, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 4:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<15) || 17<i){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
+            
+        case 5:
+            for(int i=0;i<21;i++){
+              if (2<i && i<18){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
 
-  pixels.setPixelColor(7, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 6:
+            for(int i=0;i<21;i++){
+              if (i<18){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
 
-  pixels.setPixelColor(8, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_cuatro(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(9, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 7:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<9) || (14<i)){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
 
-  pixels.setPixelColor(10, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 8:
+            for(int i=0;i<21;i++){
+              if (1){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
 
-  pixels.setPixelColor(11, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_cinco(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(12, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 9:
+            for(int i=0;i<21;i++){
+              if (5<i){pintar (i);}
+                else {borrar (i);}
+            }
+            break;
+      }
 
-  pixels.setPixelColor(13, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+      switch (decenas)                                                                //Aquí la programación de cuáles ledes tienen que encenderse y cuáles apagarse, para las decenas.
+      {
+        case 0:
+            for(int i=0;i<21;i++){
+              if (i<9 || 11<i){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
 
-  pixels.setPixelColor(14, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_seis(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(15, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 1:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<9) || (16<i)){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
 
-  pixels.setPixelColor(16, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 2:
+            for(int i=0;i<21;i++){
+              if (i<6 || (8<i && i<12) || 14<i){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
 
-  pixels.setPixelColor(17, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_siete(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(18, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 3:
+            for(int i=0;i<21;i++){
+              if ((2<i && i<12) ||  14<i){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
 
-  pixels.setPixelColor(19, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 4:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<15) || 17<i){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
+            
+        case 5:
+            for(int i=0;i<21;i++){
+              if (2<i && i<18){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
 
-  pixels.setPixelColor(20, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_ocho(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(21, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 6:
+            for(int i=0;i<21;i++){
+              if (i<18){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
 
-  pixels.setPixelColor(22, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 7:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<9) || (14<i)){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
 
-  pixels.setPixelColor(23, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_nueve(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(24, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 8:
+            for(int i=0;i<21;i++){
+              if (1){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
 
-  pixels.setPixelColor(25, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 9:
+            for(int i=0;i<21;i++){
+              if (5<i){pintar (i+21);}
+                else {borrar (i+21);}
+            }
+            break;
+      }
 
-  pixels.setPixelColor(26, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_diez(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(27, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+            
+      switch (unidades)                                                                        //Aquí la programación de cuáles ledes tienen que encenderse y cuáles apagarse, para las unidades.
+      {
+        case 0:
+            for(int i=0;i<21;i++){
+              if (i<9 || 11<i){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
 
-  pixels.setPixelColor(28, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 1:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<9) || (16<i)){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
 
-  pixels.setPixelColor(29, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_once(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(30, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 2:
+            for(int i=0;i<21;i++){
+              if (i<6 || (8<i && i<12) || 14<i){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
 
-  pixels.setPixelColor(31, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 3:
+            for(int i=0;i<21;i++){
+              if ((2<i && i<12) ||  14<i){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
 
-  pixels.setPixelColor(32, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_doce(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(33, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 4:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<15) || 17<i){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
+            
+        case 5:
+            for(int i=0;i<21;i++){
+              if (2<i && i<18){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
 
-  pixels.setPixelColor(34, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 6:
+            for(int i=0;i<21;i++){
+              if (i<18){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
 
-  pixels.setPixelColor(35, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_trece(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(36, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 7:
+            for(int i=0;i<21;i++){
+              if ((5<i && i<9) || (14<i)){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
 
-  pixels.setPixelColor(37, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
+        case 8:
+            for(int i=0;i<21;i++){
+              if (1){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
 
-  pixels.setPixelColor(38, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
-} void tira_catorce(char color) {
-  Serial.println("funciona, pulsado");
-  pixels.setPixelColor(39, color); // Brillo moderado en rojo
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
-
-  pixels.setPixelColor(40, color); // Brillo moderado en verde
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa por un periodo de tiempo (en milisegundos).
-
-  pixels.setPixelColor(41, color); // Brillo moderado en azul
-  pixels.show();   // Mostramos y actualizamos el color del pixel de nuestra cinta led RGB
-  // Pausa po
+        case 9:
+            for(int i=0;i<21;i++){
+              if (5<i){pintar (i+42);}
+                else {borrar (i+42);}
+            }
+            break;
+        }
 }
 
-
-void numd(int t) {
-
-
-  switch (t) {
-    case 0:
-      tira_trece(azul);
-      tira_doce(azul);
-      tira_diez(azul);
-      tira_nueve(azul);
-      tira_ocho(azul);
-      tira_catorce(azul);
-    case 1:
-      tira_catorce(azul);
-      tira_diez (azul);
-      break;
-    case 2:
-      tira_trece(azul);
-      tira_catorce(azul);
-      tira_once(azul);
-      tira_ocho(azul);
-      tira_nueve(azul);
-      break;
-    case 3:
-      tira_trece(azul);
-      tira_catorce(azul);
-      tira_once(azul);
-      tira_diez(azul);
-      tira_nueve(azul);
-      break;
-    case 4:
-      tira_doce(azul);
-      tira_once(azul);
-      tira_catorce(azul);
-      tira_diez(azul);
-      break;
-    case 5:
-      tira_trece(azul);
-      tira_once(azul);
-      tira_doce(azul);
-      tira_diez(azul);
-      tira_nueve(azul);
-      break;
-    case 6:
-      tira_trece(azul);
-      tira_ocho(azul);
-      tira_once(azul);
-      tira_doce(azul);
-      tira_diez(azul);
-      tira_nueve(azul);
-      break;
-    case 7:
-      tira_trece(azul);
-      tira_catorce(azul);
-      tira_diez(azul);
-      break;
-    case 8:
-      tira_trece(azul);
-      tira_once(azul);
-      tira_doce(azul);
-      tira_diez(azul);
-      tira_nueve(azul);
-      tira_ocho(azul);
-      tira_catorce(azul);
-      break;
-    case 9:
-      tira_trece(azul);
-      tira_once(azul);
-      tira_doce(azul);
-      tira_diez(azul);
-      tira_catorce(azul);
-      break;
-  }
-}
-void numi(int t) {
-  switch (t) {
-    case 0:
-      break;
-    case 1:
-      tira_siete(azul);
-      tira_tres(azul);
-      break;
-    case 2:
-      tira_seis(azul);
-      tira_siete(azul);
-      tira_cuatro(azul);
-      tira_uno(azul);
-      tira_dos(azul);
-      break;
-    case 3:
-      tira_seis(azul);
-      tira_siete(azul);
-      tira_cuatro(azul);
-      tira_tres(azul);
-      tira_dos(azul);
-      break;
-    case 4:
-      tira_siete(azul);
-      tira_cuatro(azul);
-      tira_tres(azul);
-      tira_cinco(azul);
-      break;
-    case 5:
-      tira_seis(azul);
-      tira_cinco(azul);
-      tira_cuatro(azul);
-      tira_tres(azul);
-      tira_dos(azul);
-      break;
-    case 6:
-      tira_seis(azul);
-      tira_cinco(azul);
-      tira_cuatro(azul);
-      tira_tres(azul);
-      tira_dos(azul);
-      tira_uno(azul);
-      break;
-    case 7:
-      tira_seis(azul);
-      tira_siete(azul);
-      tira_tres(azul);
-      break;
-    case 8:
-      tira_seis(azul);
-      tira_cinco(azul);
-      tira_cuatro(azul);
-      tira_tres(azul);
-      tira_dos(azul);
-      tira_uno(azul);
-      tira_siete(azul);
-      break;
-    case 9:
-      tira_seis(azul);
-      tira_cinco(azul);
-      tira_cuatro(azul);
-      tira_tres(azul);
-      tira_siete(azul);
-      break;
-  }}
+void pintar (int led) {pixels.setPixelColor(led, azul); pixels.show();}                        //Función que pinta. Cambiar aquí colores e intensidades
+void borrar (int led) {pixels.setPixelColor(led, pixels.Color(0,0,0)); pixels.show();}                        //Función que despinta. Cambiar aquí colores e intensidades
