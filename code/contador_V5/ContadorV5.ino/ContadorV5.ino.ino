@@ -64,7 +64,7 @@ void loop() {
 delay(903);
 segundos = segundos + 1;
 
-if (segundos >= 64400)
+if (segundos >= 86400)
   {dia = dia + 1;
   segundos = 0;}
 
