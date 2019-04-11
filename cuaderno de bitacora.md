@@ -34,6 +34,13 @@ Mejoras by [David](https://github.com/David-Estevez) y [Cecilia](https://github.
 * Wen soldó la alimentación a la placa.
 * Wen cubrió los números con una hoja de papel.
 
+## A las cuatro de la mañana en Zaragoza después de la fiesta y antes de la feria
+* David y Jorge hicieron una ñapa
+* Funcionó durante la feria
+
+## 11 Abril 2019
+* JorFru hizo un código funcional
+
 ### Cosas a hacer
   - Hacer que el color de los números sea gradual respecto al número de días
   - Cambiar los millis para que sean días
