@@ -13,6 +13,7 @@ boolean flag = false;
 #define rojo  pixels.Color(20, 0, 0)
 #define  verde  pixels.Color(0, 20, 0)
 #define  azul  pixels.Color(0, 0, 20)
+#define  blanco  pixels.Color(20, 20, 20)
 
 
 
@@ -47,9 +48,10 @@ int show(int, int, int);
 void setup()
 {
   pixels.begin();
-  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(buttonPin,INPUT);
   //Definimos nuestras variables de tipo uint32 para cada color que utilizaremos
   // pixels.Color toma valores en RGB, desde 0,0,0 hasta 255,255,255
+ 
 
   show(0, 0, 0);
   segundos = 0;
@@ -57,21 +59,23 @@ void setup()
   // set initial LED state
 }
 
-void loop() {
+void loop() {                                               //Este es el programa principal. Una mierda pero garantizamos que no tiene fisuras
 
-  uint32_t apagado = pixels.Color(0, 0, 0);
-
-delay(903);
+uint32_t apagado = pixels.Color(0, 0, 0);
+  
+if (digitalRead(buttonPin)==HIGH){dia=dia+1;show(dia / 100, (dia / 10) % 10, dia % 10); delay(20);} //Esto se hace si has apretado el boton de añadir dias manualmente
+else{
+delay(899);                                                   //Esto está calculado a ojo. Si metes más cosas a ejecutar en el bucle principal tendrás que bajar este número.
 segundos = segundos + 1;
 
-if (segundos >= 86400)
+if (segundos >= 86400)                                        //86400 es el número de segundos que hay en un día
   {dia = dia + 1;
-  segundos = 0;}
+  segundos = 0;}                                  
 
-  show(dia / 100, (dia / 10) % 10, dia % 10);
+  show(dia / 100, (dia / 10) % 10, dia % 10);                     //Esto actualiza los números en los leds
 
 }
-
+}
 int show(int centenas, int decenas, int unidades) {
   switch (centenas)                                                  //Aquí la programación de cuáles ledes tienen que encenderse y cuáles apagarse, para las centenas.
   {
@@ -176,7 +180,7 @@ int show(int centenas, int decenas, int unidades) {
 
     case 9:
       for (int i = 0; i < 21; i++) {
-        if (5 < i) {
+        if (2 < i) {
           pintar (i);
         }
         else {
@@ -289,7 +293,7 @@ int show(int centenas, int decenas, int unidades) {
 
     case 9:
       for (int i = 0; i < 21; i++) {
-        if (5 < i) {
+        if (2 < i) {
           pintar (i + 21);
         }
         else {
@@ -403,7 +407,7 @@ int show(int centenas, int decenas, int unidades) {
 
     case 9:
       for (int i = 0; i < 21; i++) {
-        if (5 < i) {
+        if (2 < i) {
           pintar (i + 42);
         }
         else {
@@ -415,10 +419,10 @@ int show(int centenas, int decenas, int unidades) {
 }
 
 void pintar (int led) {
-  pixels.setPixelColor(led, rojo);  //Función que pinta. Cambiar aquí colores e intensidades
+  pixels.setPixelColor(led, blanco);  //Función que pinta. Cambiar aquí colores e intensidades
   pixels.show();
 }
 void borrar (int led) {
-  pixels.setPixelColor(led, pixels.Color(0, 0, 0));  //Función que d
+  pixels.setPixelColor(led, pixels.Color(0, 0, 0));  //Función que borra
   pixels.show();
 }
